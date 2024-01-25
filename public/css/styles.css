@@ -58,7 +58,7 @@ header {
 }
 
 #search-container{
-    background-image: url("../img/wallpaper.jpg");
+    background-image: url("../img/palmeira.jpg");
     background-size: cover;
     background-position: center;
     height: 400px;
@@ -206,4 +206,15 @@ footer p {
 
 .dashboard-events-container th {
     width: 25%;
+}
+
+.dashboard-events-container form{
+    display: inline-block;
+}
+
+/* EDIT PAGE */
+
+.img-preview{
+    width: 100px;
+    margin-top: 20px;
 }

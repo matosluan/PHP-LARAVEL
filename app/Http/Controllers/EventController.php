@@ -63,7 +63,7 @@ class EventController extends Controller
 
         $event->save();
 
-        return redirect('/')->with('msg', 'Frete criado com sucesso 👍!');
+        return redirect('/')->with('msg', 'Evento criado com sucesso 👍!');
     }
 
     public function show($id){
@@ -83,5 +83,49 @@ class EventController extends Controller
 
         return view('events.dashboard', ['events' => $events]);
     }
+
+    public function destroy($id){
+        Event::findOrFail($id)->delete();
+
+        return redirect('/dashboard')->with('msg', 'Evento excluido com sucesso👍!');
+    }
+
+    public function edit($id){
+        $event = Event::findOrFail($id);
+
+        return view('events.edit', ['event' => $event]);
+    }
+
+    public function update(Request $request){
+
+        $data = $request->all();
+
+        if($request->hasfile('image') && $request->file('image')->isValid()){
+            
+            $requestImage = $request->image;
+
+            $extension = $requestImage->extension();
+
+            $imageName = md5($requestImage->getClientOriginalName() . strtotime("now") . "." . $extension);
+
+            $requestImage->move(public_path('img/events'), $imageName);
+
+            $data['image']= $imageName;
+        }
+
+        Event::findOrFail($request->id)->update($data);
+
+        return redirect('/dashboard')->with('msg', 'Evento atualizado com sucesso👍!');
+    }
+
+    // public function joinEvent($id) {
+    //     $user = auth()->user();
+
+    //     $user->eventsAsParticipant()->attach($id);
+
+    //     $event = Event::findOrFail($id);
+
+    //     return redirect('/dashboard')->with('msg', 'Sua presença está confirmada no evento'. $event->title);
+    // }
     
 }
